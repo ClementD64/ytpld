@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const fetch = require('./fetch');
+const { fetch } = require('./utils');
 
 class Playlist {
     constructor(url) {

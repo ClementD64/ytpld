@@ -1,4 +1,5 @@
 const http = require('http');
+const child_process = require('child_process');
 
 function fetch(url) {
     return new Promise((resolve, reject) => {
@@ -16,4 +17,10 @@ function fetch(url) {
     });
 }
 
-module.exports = fetch;
+function exec(cmd) {
+    return new Promise((resolve, reject) => {
+        child_process.exec(cmd, err => err ? reject() : resolve());
+    });
+}
+
+module.exports = { fetch, exec };
