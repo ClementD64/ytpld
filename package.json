@@ -2,17 +2,14 @@
   "name": "youtube-dl",
   "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "node src/cron",
     "config": "node -e \"new (require('./src/config'))().createIfNotExist();\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ClementD64/youtube-dl.git"
   },
-  "keywords": [],
   "author": "Clément Dubreuil",
   "license": "MIT",
   "bugs": {

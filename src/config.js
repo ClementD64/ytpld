@@ -11,6 +11,7 @@ class Config {
         this.playlist = json.playlist || null;
         this.outDir = json.outDir || '.';
         this.artist = json.artist || '';
+        this.interval = json.interval || 3600000;
         this.process = json.process || 1;
         this.remove = json.remove || [];
         return this;
@@ -24,6 +25,7 @@ class Config {
                 playlist: null,
                 outDir: '.',
                 artist: '',
+                interval: 3600000,
                 process: 1,
                 remove: []
             }, null, 4));

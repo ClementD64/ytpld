@@ -27,7 +27,7 @@ FROM node:12-alpine
 # install ffmpeg
 RUN apk add ffmpeg
 
-WORKDIR /usr/src/app
+WORKDIR /app
 # copy audiowaveform
 COPY --from=audiowaveform /audiowaveform audiowaveform
 # install npm dependancies
