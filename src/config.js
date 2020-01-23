@@ -10,6 +10,7 @@ class Config {
         const json = JSON.parse((await fs.promises.readFile('config.json')).toString());
         this.playlist = json.playlist || null;
         this.outDir = json.outDir || '.';
+        this.artist = json.artist || '';
         this.process = json.process || 1;
         this.remove = json.remove || [];
         return this;
@@ -22,6 +23,7 @@ class Config {
             await fs.promises.writeFile('config.json', JSON.stringify({
                 playlist: null,
                 outDir: '.',
+                artist: '',
                 process: 1,
                 remove: []
             }, null, 4));
