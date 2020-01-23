@@ -53,7 +53,7 @@ class Manager {
         for (const i of this.config.remove) {
             name = name.replace(new RegExp(i, 'g'), '');
         }
-        return name;
+        return name.trim();
     }
 
     getFilename(name) {
