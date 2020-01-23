@@ -36,7 +36,7 @@ class Analyzer {
     }
 
     getEnd() {
-        for (let i = this.startIndex; i < this.wave.length; i++) {
+        for (let i = Math.floor(this.wave.length / 2); i < this.wave.length; i++) {
             if (this.wave[i] === 0) {
                 this.endIndex = i;
                 break;
