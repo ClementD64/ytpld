@@ -1,4 +1,4 @@
-const { exec } = require('child_process');
+const { exec } = require('./utils');
 const fs = require('fs');
 
 class Analyzer {
@@ -17,7 +17,7 @@ class Analyzer {
     }
 
     async getWave() {
-        await this.exec(`audiowaveform -i ${this.filename} -o ${this.filename}.json -b 8 --pixels-per-second ${this.pps}`);
+        await exec(`audiowaveform -i ${this.filename} -o ${this.filename}.json -b 8 --pixels-per-second ${this.pps}`);
         this.wave = JSON.parse((await fs.promises.readFile(`${this.filename}.json`)).toString());
         await fs.promises.unlink(`${this.filename}.json`);
     }
@@ -39,12 +39,6 @@ class Analyzer {
 
         // if no end found
         return this.wave.length / this.pps;
-    }
-
-    exec(cmd) {
-        return new Promise((resolve, reject) => {
-            exec(cmd, err => err ? reject() : resolve());
-        });
     }
 }
 
