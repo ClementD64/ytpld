@@ -14,6 +14,7 @@ class Analyzer {
         await this.getWave();
         this.getStart();
         this.getEnd();
+        return this;
     }
 
     async getWave() {
