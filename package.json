@@ -1,0 +1,26 @@
+{
+  "name": "youtube-dl",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClementD64/youtube-dl.git"
+  },
+  "keywords": [],
+  "author": "Clément Dubreuil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ClementD64/youtube-dl/issues"
+  },
+  "homepage": "https://github.com/ClementD64/youtube-dl#readme",
+  "dependencies": {
+    "browser-id3-writer": "^4.3.0",
+    "cheerio": "^1.0.0-rc.3",
+    "ytdl-core": "^1.0.7"
+  }
+}
