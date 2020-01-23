@@ -16,7 +16,7 @@ class Playlist {
     }
 
     async getPlaylist() {
-        this.id = getId(data);
+        this.id = this.getId(this.url);
         const body = await fetch(`https:\/\/www.youtube.com/playlist?list=${this.id}`);
 
         const $ = cheerio.load(body.toString());

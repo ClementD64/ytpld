@@ -5,7 +5,9 @@ class Analyzer {
     constructor(filename) {
         this.filename = filename;
         this.start = 0;
+        this.startIndex = 0;
         this.end = 0;
+        this.endIndex = 0;
         this.wave = [];
         this.pps = 10;
     }
@@ -14,32 +16,35 @@ class Analyzer {
         await this.getWave();
         this.getStart();
         this.getEnd();
+        console.log(this.endIndex, this.wave.length);
         return this;
     }
 
     async getWave() {
         await exec(`./audiowaveform -i ${this.filename} -o ${this.filename}.json -b 8 --pixels-per-second ${this.pps}`);
-        this.wave = JSON.parse((await fs.promises.readFile(`${this.filename}.json`)).toString());
+        this.wave = JSON.parse((await fs.promises.readFile(`${this.filename}.json`)).toString()).data;
         await fs.promises.unlink(`${this.filename}.json`);
     }
 
     getStart() {
         for (let i = 0; i < this.wave.length; i++) {
             if (this.wave[i] !== 0) {
-                return this.start = i / this.pps;
+                this.startIndex = i;
+                break;
             }
         }
+        this.start = Math.floor(this.startIndex / this.pps / 2);
     }
 
     getEnd() {
-        for (let i = this.start; i < this.wave.length; i++) {
-            if (this.wave[i] !== 0) {
-                return this.end = i / this.pps;
+        console.log(this.wave[this.startIndex])
+        for (let i = this.startIndex; i < this.wave.length; i++) {
+            if (this.wave[i] === 0) {
+                this.endIndex = i;
+                break;
             }
         }
-
-        // if no end found
-        return this.wave.length / this.pps;
+        this.end = Math.ceil((this.endIndex !== 0 ? this.endIndex : this.wave.length) / this.pps / 2);
     }
 }
 

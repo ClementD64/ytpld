@@ -1,9 +1,10 @@
 const http = require('http');
+const https = require('https');
 const child_process = require('child_process');
 
 function fetch(url) {
     return new Promise((resolve, reject) => {
-        http.get(url, res => { 
+        (url.startsWith('https') ? https : http).get(url, res => { 
             if (res.statusCode >= 400)
                 return reject(new Error(`Request Failed.\nStatus Code: ${res.statusCode}`));
             if (res.statusCode >= 300)
