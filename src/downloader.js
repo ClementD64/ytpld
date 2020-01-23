@@ -9,7 +9,7 @@ class Downloader {
 
     download() {
         return new Promise((resolse, reject) => {
-            ytdl(`http://www.youtube.com/watch?v=${this.is}`, {
+            ytdl(`http://www.youtube.com/watch?v=${this.id}`, {
                 filter: 'audioonly',
                 quality: 'highest'
             })
