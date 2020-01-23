@@ -19,7 +19,7 @@ function fetch(url) {
 
 function exec(cmd) {
     return new Promise((resolve, reject) => {
-        child_process.exec(cmd, err => err ? reject() : resolve());
+        child_process.exec(cmd, (err, stdout, stderr) => err ? reject(stderr) : resolve(stdout));
     });
 }
 
