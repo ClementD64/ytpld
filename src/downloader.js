@@ -15,7 +15,7 @@ class Downloader {
                 quality: 'highest'
             })
             .pipe(fs.createWriteStream(this.filename))
-            .on('end', () => this.end())
+            .on('finish', () => resolse(this.end()))
             .on('error', reject);
         });
     }

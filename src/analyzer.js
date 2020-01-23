@@ -16,7 +16,6 @@ class Analyzer {
         await this.getWave();
         this.getStart();
         this.getEnd();
-        console.log(this.endIndex, this.wave.length);
         return this;
     }
 
@@ -37,7 +36,6 @@ class Analyzer {
     }
 
     getEnd() {
-        console.log(this.wave[this.startIndex])
         for (let i = this.startIndex; i < this.wave.length; i++) {
             if (this.wave[i] === 0) {
                 this.endIndex = i;

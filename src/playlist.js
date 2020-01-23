@@ -22,7 +22,7 @@ class Playlist {
         const $ = cheerio.load(body.toString());
         const thumb = $('tr');
 
-        this.name = $('meta[name="title"]').attr("content").replace(' - YouTube', '');
+        this.name = $('meta[name="title"]').attr('content').replace(' - YouTube', '');
 
         thumb.each((i, el) => {
             this.songs[i] = {
