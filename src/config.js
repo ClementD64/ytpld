@@ -3,15 +3,15 @@ const fs = require('fs');
 class Config {
     constructor(filename) {
         this.filename = filename;
-        this.playlist = null;
     }
 
     async init() {
         await this.createIfNotExist();
         const json = JSON.parse((await fs.promises.readFile('config.json')).toString());
         this.playlist = json.playlist || null;
-        this.remove = json.remove || [];
+        this.outDir = json.outDir || '.';
         this.process = json.process || 1;
+        this.remove = json.remove || [];
         return this;
     }
 
@@ -21,8 +21,9 @@ class Config {
         } catch (e) {
             await fs.promises.writeFile('config.json', JSON.stringify({
                 playlist: null,
-                remove: [],
-                process: 1
+                outDir: '.',
+                process: 1,
+                remove: []
             }, null, 4));
         }
     }

@@ -24,10 +24,28 @@ class Manager {
     }
 
     async download(song, list) {
+        const name = this.getName(song.name);
+        const file = `${this.config.outDir}${this.config.outDir.endsWith('/') ? '' : '/'}${this.getFilename(name)}.mp3`;
+        try {
+            await fs.promises.access(file);
+            return;
+        } catch (e) {}
         const tmpFile = `/tmp/${song.id}.mp3`;
         await new Downloader(song.id, tmpFile).download();
         const analyzer = await new Analyzer(tmpFile).analyze();
         await new Cutter(tmpFile, analyzer.start, analyzer.end).cut();
+        await this.mvFile(tmpFile, file);
+        console.log({name, file});
+    }
+
+    async mvFile(source, dest) {
+        await new Promise((resolve, reject) =>
+            fs.createReadStream(source)
+                .pipe(fs.createWriteStream(dest))
+                .on('finish', resolve)
+                .on('error', reject)
+        );
+        await fs.promises.unlink(source);
     }
 
     getName(name) {
@@ -38,7 +56,7 @@ class Manager {
     }
 
     getFilename(name) {
-        return name.replace(/[\/?<>\\:*|"^ ]/g, '-').replace(/_{2,}/g, '-');
+        return name.replace(/[\/?<>\\:*|"^ ]/g, '-').replace(/-+/g, '-');
     }
 }
 
