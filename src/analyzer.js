@@ -9,7 +9,7 @@ class Analyzer {
         this.end = 0;
         this.endIndex = 0;
         this.wave = [];
-        this.pps = 10;
+        this.pps = 2;
     }
 
     async analyze() {
