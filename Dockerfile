@@ -23,7 +23,7 @@ RUN apk add ffmpeg
 
 WORKDIR /app
 # copy audiowaveform
-COPY --from=audiowaveform /_/audiowaveform audiowaveform
+COPY --from=audiowaveform /_/audiowaveform ./audiowaveform
 # install npm dependancies
 COPY package.json .
 RUN npm install
