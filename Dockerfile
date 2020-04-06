@@ -1,32 +1,31 @@
 FROM debian:buster-slim as audiowaveform
 LABEL stage=build
 
-# install dependencies
-RUN apt-get update
-RUN apt-get install -y wget git make cmake gcc g++ libmad0-dev \
+# install dependencies and clone audiowaveform
+RUN apt-get update \
+    && apt-get install -y wget git make cmake gcc g++ libmad0-dev \
     libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev \
-    libboost-program-options-dev libboost-regex-dev
+    libboost-program-options-dev libboost-regex-dev \
+    && git clone https://github.com/bbc/audiowaveform.git /_
 
 # clone audiowaveform
-RUN git clone https://github.com/bbc/audiowaveform.git /_
 WORKDIR /_
 
 # build audiowaveform
-RUN cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0
-RUN make
+RUN cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0 && make
 
 # target container
-FROM node:12-alpine
+FROM node:12-buster-slim
 
 # install ffmpeg
-RUN apk add ffmpeg
+RUN apt-get update && apt-get install ffmpeg -y
 
 WORKDIR /app
-# copy audiowaveform
-COPY --from=audiowaveform /_/audiowaveform ./audiowaveform
 # install npm dependancies
 COPY package.json .
 RUN npm install
+# copy audiowaveform
+COPY --from=audiowaveform /_/audiowaveform /usr/bin/audiowaveform
 # copy source file
 COPY . .
 

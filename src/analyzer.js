@@ -20,7 +20,7 @@ class Analyzer {
     }
 
     async getWave() {
-        await exec(`./audiowaveform -i ${this.filename} -o ${this.filename}.json -b 8 --pixels-per-second ${this.pps}`);
+        await exec(`audiowaveform -i "${this.filename}" -o "${this.filename}".json -b 8 --pixels-per-second "${this.pps}"`);
         this.wave = JSON.parse((await fs.promises.readFile(`${this.filename}.json`)).toString()).data;
         await fs.promises.unlink(`${this.filename}.json`);
     }
