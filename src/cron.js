@@ -9,12 +9,13 @@ class Cron {
     async init() {
         await this.config.init();
         this.manager = new Manager(this.config);
-        await this.process();
+        await this.process().catch(this.error);
     }
 
     async process() {
         await this.manager.check();
-        setTimeout(() => this.process().catch(this.error), this.config.interval);
+        if (this.config.interval !== null)
+            setTimeout(() => this.process().catch(this.error), this.config.interval);
     }
 
     error(e) {
