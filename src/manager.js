@@ -32,7 +32,12 @@ class Manager {
             return;
         } catch (e) {}
         const tmpFile = `/tmp/${song.id}.mp3`;
-        await new Downloader(song.id, tmpFile).download();
+        try {
+            await new Downloader(song.id, tmpFile).download();
+        } catch (e) {
+            console.error(`Download "${name}" faild`);
+            return;
+        }
         const analyzer = await new Analyzer(tmpFile).analyze();
         await new Cutter(tmpFile, analyzer.start, analyzer.end).cut();
         await new Editor(tmpFile, song.id, name, this.config.artist, list.name).edit();
