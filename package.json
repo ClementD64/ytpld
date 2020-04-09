@@ -19,6 +19,6 @@
   "dependencies": {
     "browser-id3-writer": "^4.3.0",
     "cheerio": "^1.0.0-rc.3",
-    "ytdl-core": "^1.0.7"
+    "ytdl-core": "^2.0.1"
   }
 }
