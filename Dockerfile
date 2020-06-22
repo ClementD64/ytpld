@@ -17,15 +17,18 @@ RUN cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0 && make
 # target container
 FROM node:12-buster-slim
 
+# copy audiowaveform
+COPY --from=audiowaveform /_/audiowaveform /usr/bin/audiowaveform
+
 # install ffmpeg
 RUN apt-get update && apt-get install ffmpeg -y
 
 WORKDIR /app
+
 # install npm dependancies
 COPY package.json .
 RUN npm install
-# copy audiowaveform
-COPY --from=audiowaveform /_/audiowaveform /usr/bin/audiowaveform
+
 # copy source file
 COPY . .
 

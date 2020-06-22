@@ -1,24 +1,22 @@
 {
-  "name": "youtube-dl",
+  "name": "ytplaylistd",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
-    "start": "node src/cron",
-    "config": "node -e \"new (require('./src/config'))().createIfNotExist();\""
+    "start": "node src"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ClementD64/youtube-dl.git"
+    "url": "git+https://github.com/ClementD64/ytplaylistd.git"
   },
   "author": "Clément Dubreuil",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ClementD64/youtube-dl/issues"
+    "url": "https://github.com/ClementD64/ytplaylistd/issues"
   },
-  "homepage": "https://github.com/ClementD64/youtube-dl#readme",
+  "homepage": "https://github.com/ClementD64/ytplaylistd#readme",
   "dependencies": {
-    "browser-id3-writer": "^4.3.0",
-    "cheerio": "^1.0.0-rc.3",
-    "ytdl-core": "^2.0.1"
+    "browser-id3-writer": "^4.4.0",
+    "ytdl-core": "^2.1.7"
   }
 }

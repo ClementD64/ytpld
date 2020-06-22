@@ -1,36 +1,28 @@
-const fs = require('fs');
+const fs = require("fs");
+const os = require("os");
 
-class Config {
-    constructor(filename) {
-        this.filename = filename;
-    }
+const config = {
+  key: process.env.YTPLD_KEY,
+  id: process.env.YTPLD_ID,
+  artist: process.env.YTPLD_ARTIST ?? "",
+  out: process.env.YTPLD_OUT ?? "/mnt",
+  parseNameFile: process.env.YTPLD_PARSE_NAME_FILE,
+};
 
-    async init() {
-        await this.createIfNotExist();
-        const json = JSON.parse((await fs.promises.readFile('config.json')).toString());
-        this.playlist = json.playlist || null;
-        this.outDir = json.outDir || '.';
-        this.artist = json.artist || '';
-        this.interval = json.interval || 3600000;
-        this.process = json.process || 1;
-        this.remove = json.remove || [];
-        return this;
-    }
-
-    async createIfNotExist() {
-        try {
-            await fs.promises.access('config.json');
-        } catch (e) {
-            await fs.promises.writeFile('config.json', JSON.stringify({
-                playlist: null,
-                outDir: '.',
-                artist: '',
-                interval: 3600000,
-                process: 1,
-                remove: []
-            }, null, 4));
-        }
-    }
+if (typeof config.key === "undefined") {
+  console.error("A token api key is required");
+  process.exit(1);
 }
 
-module.exports = Config;
+if (typeof config.id === "undefined") {
+  console.error("A playlist id is required");
+  process.exit(1);
+}
+
+if (process.env.YTPLD_PARSE_NAME_FUNCTION) {
+  const file = `${os.tmpdir()}/ytpld_parse_name.js`;
+  fs.writeFileSync(file, `module.exports = ${process.env.YTPLD_PARSE_NAME_FUNCTION}`);
+  config.parseNameFile = file;
+}
+
+module.exports = config;
