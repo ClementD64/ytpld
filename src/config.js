@@ -21,7 +21,10 @@ if (typeof config.id === "undefined") {
 
 if (process.env.YTPLD_PARSE_NAME_FUNCTION) {
   const file = `${os.tmpdir()}/ytpld_parse_name.js`;
-  fs.writeFileSync(file, `module.exports = ${process.env.YTPLD_PARSE_NAME_FUNCTION}`);
+  fs.writeFileSync(
+    file,
+    `module.exports = ${process.env.YTPLD_PARSE_NAME_FUNCTION}`,
+  );
   config.parseNameFile = file;
 }
 

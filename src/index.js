@@ -10,12 +10,12 @@ const edit = require("./edit");
 
 const parseName = !!config.parseNameFile
   ? require(config.parseNameFile)
-  : _=>_;
+  : (_) => _;
 
 const exist = (s) =>
   new Promise((r) => fs.access(s, fs.constants.F_OK, (e) => r(!e)));
 
-class _ {
+class Main {
   async check() {
     const data = await playlist(config.id);
 
@@ -33,8 +33,6 @@ class _ {
   }
 
   async download(song, playlistName) {
-    console.log(parseName(song.name).toString().trim());
-
     const filename = `${config.out}${
       config.out.endsWith("/") ? "" : "/"
     }${song.id}.mp3`;
@@ -52,6 +50,11 @@ class _ {
     });
     await fs.promises.rename(tmpFile, filename);
   }
+
+  async cron() {
+    await this.check().catch(console.error);
+    setTimeout(() => this.cron(), 3600000);
+  }
 }
 
-new _().check();
+new Main().cron();
