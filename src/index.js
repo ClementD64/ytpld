@@ -15,6 +15,16 @@ const parseName = !!config.parseNameFile
 const exist = (s) =>
   new Promise((r) => fs.access(s, fs.constants.F_OK, (e) => r(!e)));
 
+async function mvFile(source, dest) {
+  await new Promise((resolve, reject) =>
+    fs.createReadStream(source)
+      .pipe(fs.createWriteStream(dest))
+      .on("finish", resolve)
+      .on("error", reject)
+  );
+  await fs.promises.unlink(source);
+}
+
 class Main {
   async check() {
     const data = await playlist(config.id);
@@ -48,7 +58,7 @@ class Main {
       artist: config.artist,
       album: playlistName,
     });
-    await fs.promises.rename(tmpFile, filename);
+    await mvFile(tmpFile, filename);
   }
 
   async cron() {
