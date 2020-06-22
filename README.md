@@ -6,7 +6,7 @@ Watch and Download a Youtube playlist
 
 clone this repo, edit `docker-compose.yml` and run
 ```sh
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 ## Config

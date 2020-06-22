@@ -5,7 +5,7 @@ services:
     build: .
     restart: unless-stopped
     volumes:
-      /path/to/output:/mnt
+      - /path/to/output:/mnt
     environment: 
       - YTPLD_KEY=<Your Youtube Api Token>
       - YTPLD_ID=<Your Playlist ID>
