@@ -15,7 +15,7 @@ WORKDIR /_
 RUN cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0 && make
 
 # target container
-FROM node:12-buster-slim
+FROM node:14-buster-slim
 
 # copy audiowaveform
 COPY --from=audiowaveform /_/audiowaveform /usr/bin/audiowaveform
