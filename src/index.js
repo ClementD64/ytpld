@@ -30,7 +30,7 @@ class Main {
     const data = await playlist(config.id);
 
     for (const song of data.list) {
-      if (await exist(`${song.id}.mp3`)) {
+      if (await exist(`${config.out}/${song.id}.mp3`)) {
         continue;
       }
 
@@ -43,9 +43,7 @@ class Main {
   }
 
   async download(song, playlistName) {
-    const filename = `${config.out}${
-      config.out.endsWith("/") ? "" : "/"
-    }${song.id}.mp3`;
+    const filename = `${config.out}/${song.id}.mp3`;
     const tmpFile = `${os.tmpdir()}/${song.id}.mp3`;
 
     await download(song.id, tmpFile);
