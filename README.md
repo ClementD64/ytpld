@@ -1,12 +1,21 @@
-# ytplaylistd - Youtube Playlist Deamon
+# ytpld - Youtube Playlist Daemon
 
 Watch and Download a Youtube playlist
 
 ## Usage
 
-clone this repo, edit `docker-compose.yml` and run
-```sh
-docker-compose up -d --build
+```yml
+version: "3"
+
+services: 
+  ytpld:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - /path/to/output:/mnt
+    environment: 
+      - YTPLD_KEY=<Your Youtube Api Token>
+      - YTPLD_ID=<Your Playlist ID>
 ```
 
 ## Config
@@ -17,6 +26,7 @@ Configuration are done using environment variable
 * `YTPLD_ID` *required*: Your playlist id
 * `YTPLD_ARTIST`: The song artist in mp3 metadata *(default empty)*
 * `YTPLD_OUT`: Song output dir *(default /mnt)*
+* `YTPLD_PLAYLIST_NAME_AS_ALBUM`: Use playlist name as album title. Else, song title will be used *(default false)*
 * `YTPLD_PARSE_NAME_FILE`: File for a custom song name modifier
 * `YTPLD_PARSE_NAME_FUNCTION`: Custom song name modifier (overwrite `YTPLD_PARSE_NAME_FILE`)
 
@@ -24,7 +34,7 @@ Configuration are done using environment variable
 
 #### Using file
 
-```
+```js
 // handleName.js
 module.exports = function(name) {
   return [...name].reverse().join('')
@@ -37,18 +47,4 @@ set environment variable `YTPLD_PARSE_NAME_FILE` to `handleName.js`
 
 ```sh
 YTPLD_PARSE_NAME_FUNCTION="function(name) { return [...name].reverse().join('') }"
-```
-
-## Workflow
-
-```
-songs = get playlist entries
-for each song of songs
-  if already downloaded
-    ignore
-  else
-    download song
-    analyse song # search empty start and outro
-    cut song # remove empty start and outro
-    edit song metadata
 ```

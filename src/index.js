@@ -8,7 +8,7 @@ const analyze = require("./analyze");
 const cut = require("./cut");
 const edit = require("./edit");
 
-const parseName = !!config.parseNameFile
+const parseName = config.parseNameFile
   ? require(config.parseNameFile)
   : (_) => _;
 
@@ -48,13 +48,14 @@ class Main {
 
     await download(song.id, tmpFile);
     const analyzed = await analyze(tmpFile);
-    await cut(tmpFile, analyzed.start, analyzed.end);
+    await cut(tmpFile, config.fix[song.id]?.start ?? analyzed.start, config.fix[song.id]?.end ?? analyzed.end);
+    const title = parseName(song.name).toString().trim();
     await edit({
       filename: tmpFile,
       coverUrl: song.image,
       title: parseName(song.name).toString().trim(),
       artist: config.artist,
-      album: playlistName,
+      album: config.playlistNameAsAlbum ? playlistName : title,
     });
     await mvFile(tmpFile, filename);
   }
