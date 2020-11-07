@@ -17,6 +17,6 @@
   "homepage": "https://github.com/ClementD64/ytplaylistd#readme",
   "dependencies": {
     "browser-id3-writer": "^4.4.0",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^4.0.3"
   }
 }
