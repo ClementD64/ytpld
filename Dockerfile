@@ -1,27 +1,29 @@
-FROM debian:buster-slim as audiowaveform
+FROM alpine as audiowaveform
 LABEL stage=build
 
-# install dependencies and clone audiowaveform
-RUN apt-get update \
-    && apt-get install -y wget git make cmake gcc g++ libmad0-dev \
-    libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev \
-    libboost-program-options-dev libboost-regex-dev \
-    && git clone https://github.com/bbc/audiowaveform.git /_
+RUN apk add --no-cache git make cmake gcc g++ libmad-dev \
+    libid3tag-dev libsndfile-dev gd-dev boost-dev \
+    libgd libpng-dev zlib-dev \
+    # static build
+    zlib-static libpng-static boost-static \
+    # manual static flac install
+    autoconf automake libtool gettext \
+ && wget https://github.com/xiph/flac/archive/1.3.3.tar.gz \
+ && tar xzf 1.3.3.tar.gz \
+ && cd flac-1.3.3 \
+ && ./autogen.sh \
+ && ./configure --enable-shared=no \
+ && make \
+ && make install \
+    # audiowaveform build
+ && git clone https://github.com/bbc/audiowaveform.git /tmp/audiowaveform \
+ && cd /tmp/audiowaveform \
+ && cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0 && make
 
-# clone audiowaveform
-WORKDIR /_
+FROM node:14-alpine
 
-# build audiowaveform
-RUN cmake -D BUILD_STATIC=1 -D ENABLE_TESTS=0 && make
-
-# target container
-FROM node:14-buster-slim
-
-# copy audiowaveform
-COPY --from=audiowaveform /_/audiowaveform /usr/bin/audiowaveform
-
-# install ffmpeg
-RUN apt-get update && apt-get install ffmpeg -y
+COPY --from=audiowaveform /tmp/audiowaveform/audiowaveform /usr/bin/audiowaveform
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 
@@ -29,8 +31,5 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 
-# copy source file
-COPY . .
-
-# start app at container start
-CMD [ "npm", "start" ]
+COPY src/ ./src/
+ENTRYPOINT [ "node", "src" ]
