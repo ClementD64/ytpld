@@ -9,7 +9,7 @@ version: "3"
 
 services: 
   ytpld:
-    build: .
+    build: github.com/ClementD64/ytpld.git
     restart: unless-stopped
     volumes:
       - /path/to/output:/mnt
