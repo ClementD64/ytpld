@@ -62,7 +62,8 @@ class Main {
 
   async cron() {
     await this.check().catch(console.error);
-    setTimeout(() => this.cron(), 3600000);
+    if (config.interval !== 0)
+      setTimeout(() => this.cron(), config.interval);
   }
 }
 

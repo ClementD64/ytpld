@@ -17,6 +17,6 @@
   "homepage": "https://github.com/ClementD64/ytpld#readme",
   "dependencies": {
     "browser-id3-writer": "^4.4.0",
-    "ytdl-core": "^4.0.3"
+    "ytdl-core": "^4.1.1"
   }
 }

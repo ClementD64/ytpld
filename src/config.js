@@ -4,6 +4,7 @@ const os = require("os");
 const config = {
   key: process.env.YTPLD_KEY,
   id: process.env.YTPLD_ID,
+  interval: Number(process.env.YTPLD_INTERVAL ?? 3600) * 1000,
   artist: process.env.YTPLD_ARTIST ?? "",
   out: process.env.YTPLD_OUT ?? "/mnt",
   playlistNameAsAlbum: process.env.YTPLD_PLAYLIST_NAME_AS_ALBUM ?? false,
@@ -18,6 +19,11 @@ if (typeof config.key === "undefined") {
 
 if (typeof config.id === "undefined") {
   console.error("A playlist id is required");
+  process.exit(1);
+}
+
+if (isNaN(config.interval)) {
+  console.error("Invalid interval");
   process.exit(1);
 }
 
