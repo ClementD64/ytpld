@@ -5,8 +5,6 @@ Watch and Download a Youtube playlist
 ## Usage
 
 ```yml
-version: "3"
-
 services: 
   ytpld:
     build: github.com/ClementD64/ytpld.git
